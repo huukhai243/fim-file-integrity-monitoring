@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FIM — Giám sát toàn vẹn file</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="dot" id="live-dot" aria-hidden="true"></span>
+    <h1>FIM</h1>
+    <span class="tagline">Giám sát toàn vẹn file</span>
+  </div>
+  <div class="topbar-actions">
+    <label class="field">
+      <span>Khoảng thời gian</span>
+      <select id="range-select">
+        <option value="1">1 giờ</option>
+        <option value="24" selected>24 giờ</option>
+        <option value="168">7 ngày</option>
+        <option value="720">30 ngày</option>
+        <option value="">Tất cả</option>
+      </select>
+    </label>
+    <button id="scan-btn" class="btn btn-primary">Quét ngay</button>
+    <button id="theme-btn" class="btn btn-ghost" title="Đổi sáng/tối">◐</button>
+  </div>
+</header>
+
+<main>
+  <!-- ================= Thẻ tổng quan ================= -->
+  <section class="tiles" id="tiles" aria-label="Tổng quan">
+    <div class="tile" data-tile="events">
+      <span class="tile-label">Thay đổi</span>
+      <span class="tile-value" id="t-events">—</span>
+      <span class="tile-note" id="t-events-note"></span>
+    </div>
+    <div class="tile" data-tile="suspicious">
+      <span class="tile-label">Đáng ngờ</span>
+      <span class="tile-value" id="t-suspicious">—</span>
+      <span class="tile-note" id="t-suspicious-note"></span>
+    </div>
+    <div class="tile" data-tile="alerts">
+      <span class="tile-label">Cảnh báo chờ xử lý</span>
+      <span class="tile-value" id="t-alerts">—</span>
+      <span class="tile-note" id="t-alerts-note"></span>
+    </div>
+    <div class="tile" data-tile="baseline">
+      <span class="tile-label">Baseline</span>
+      <span class="tile-value" id="t-baseline">—</span>
+      <span class="tile-note" id="t-baseline-note"></span>
+    </div>
+  </section>
+
+  <!-- ================= Biểu đồ ================= -->
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Thay đổi theo thời gian</h2>
+        <p class="panel-sub" id="chart-sub">Chi tiết từng mức nằm ở bảng bên dưới</p>
+      </div>
+      <div class="legend" id="chart-legend">
+        <span class="legend-item"><i class="swatch" data-series="benign"></i>Hợp lệ</span>
+        <span class="legend-item"><i class="swatch" data-series="suspicious"></i>Đáng ngờ</span>
+      </div>
+    </div>
+    <div class="chart-wrap">
+      <svg id="chart" role="img" aria-labelledby="chart-title-a11y"></svg>
+      <title id="chart-title-a11y">Biểu đồ cột số thay đổi theo thời gian, tách hợp lệ và đáng ngờ</title>
+      <div id="chart-tip" class="tip" hidden></div>
+    </div>
+  </section>
+
+  <!-- ================= Tab ================= -->
+  <nav class="tabs" role="tablist">
+    <button class="tab is-active" role="tab" data-tab="events">Lịch sử thay đổi</button>
+    <button class="tab" role="tab" data-tab="alerts">Cảnh báo</button>
+    <button class="tab" role="tab" data-tab="whitelist">Whitelist</button>
+    <button class="tab" role="tab" data-tab="rules">Bộ luật</button>
+    <button class="tab" role="tab" data-tab="scope">Phạm vi</button>
+  </nav>
+
+  <!-- ---------- Lịch sử ---------- -->
+  <section class="panel tabpanel is-active" data-panel="events">
+    <div class="filters">
+      <label class="field">
+        <span>Mức</span>
+        <select id="f-severity">
+          <option value="">Tất cả</option>
+          <option value="critical">critical</option>
+          <option value="high">high</option>
+          <option value="medium">medium</option>
+          <option value="low">low</option>
+          <option value="info">info</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Loại</span>
+        <select id="f-change">
+          <option value="">Tất cả</option>
+          <option value="created">created</option>
+          <option value="modified">modified</option>
+          <option value="attr">attr</option>
+          <option value="deleted">deleted</option>
+        </select>
+      </label>
+      <label class="field grow">
+        <span>Đường dẫn</span>
+        <input id="f-path" type="search" placeholder="lọc theo chuỗi con, ví dụ /etc/">
+      </label>
+      <label class="check">
+        <input id="f-wl" type="checkbox" checked>
+        <span>Kể cả đã whitelist</span>
+      </label>
+    </div>
+
+    <div class="table-wrap">
+      <table id="events-table">
+        <thead>
+          <tr>
+            <th class="col-check"><input type="checkbox" id="check-all" aria-label="Chọn tất cả"></th>
+            <th>Thời điểm</th>
+            <th>Mức</th>
+            <th>Loại</th>
+            <th>Đường dẫn</th>
+            <th class="num">Điểm</th>
+            <th>Căn cứ</th>
+          </tr>
+        </thead>
+        <tbody id="events-body"></tbody>
+      </table>
+    </div>
+    <div class="table-foot">
+      <span id="events-count" class="muted"></span>
+      <div class="table-actions">
+        <button id="approve-btn" class="btn" disabled>Chấp nhận mục đã chọn</button>
+        <button id="wl-from-sel" class="btn" disabled>Thêm vào whitelist</button>
+        <button id="prev-btn" class="btn btn-ghost">←</button>
+        <button id="next-btn" class="btn btn-ghost">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- Cảnh báo ---------- -->
+  <section class="panel tabpanel" data-panel="alerts">
+    <div class="filters">
+      <label class="field">
+        <span>Trạng thái</span>
+        <select id="f-alert-status">
+          <option value="new" selected>Chờ xử lý</option>
+          <option value="ack">Đã tiếp nhận</option>
+          <option value="resolved">Đã xử lý</option>
+          <option value="false_positive">Báo sai</option>
+          <option value="">Tất cả</option>
+        </select>
+      </label>
+    </div>
+    <div id="alerts-list" class="cards"></div>
+  </section>
+
+  <!-- ---------- Whitelist ---------- -->
+  <section class="panel tabpanel" data-panel="whitelist">
+    <form id="wl-form" class="wl-form">
+      <label class="field grow">
+        <span>Mẫu đường dẫn <small>(glob, ** bắc cầu nhiều cấp)</small></span>
+        <input id="wl-path" placeholder="/var/log/**">
+      </label>
+      <label class="field">
+        <span>Chỉ tắt luật <small>(khuyến nghị)</small></span>
+        <input id="wl-rule" placeholder="H024" size="6">
+      </label>
+      <label class="field">
+        <span>Hết hạn</span>
+        <input id="wl-expires" placeholder="+7d">
+      </label>
+      <label class="field grow">
+        <span>Lý do <small>(bắt buộc)</small></span>
+        <input id="wl-reason" required placeholder="vì sao thay đổi này an toàn">
+      </label>
+      <button class="btn btn-primary" type="submit">Thêm</button>
+    </form>
+    <p class="hint">
+      Mục whitelist càng hẹp càng tốt. Điền <strong>Chỉ tắt luật</strong> để bỏ đúng
+      một luật gây nhiễu thay vì miễn trừ cả file — các luật còn lại vẫn bảo vệ file đó.
+    </p>
+    <div class="table-wrap">
+      <table id="wl-table">
+        <thead>
+          <tr>
+            <th>ID</th><th>Hiệu lực</th><th>Mẫu khớp</th><th>Luật</th>
+            <th class="num">Lượt dùng</th><th>Lý do</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="wl-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ---------- Bộ luật ---------- -->
+  <section class="panel tabpanel" data-panel="rules">
+    <p class="hint">
+      Mỗi luật góp trọng số vào điểm rủi ro. Trọng số âm là bằng chứng cho thấy
+      thay đổi hợp lệ, kéo điểm xuống. Điểm tổng quyết định mức nghiêm trọng.
+    </p>
+    <div class="table-wrap">
+      <table id="rules-table">
+        <thead>
+          <tr><th>ID</th><th class="num">Trọng số</th><th>Tên luật</th><th>Ý nghĩa</th></tr>
+        </thead>
+        <tbody id="rules-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ---------- Phạm vi ---------- -->
+  <section class="panel tabpanel" data-panel="scope">
+    <div id="scope-view" class="scope-grid"></div>
+  </section>
+</main>
+
+<div id="toast" class="toast" hidden></div>
+
+<!-- Ngăn chi tiết sự kiện -->
+<aside id="drawer" class="drawer" hidden aria-label="Chi tiết sự kiện">
+  <div class="drawer-head">
+    <h2 id="drawer-title">Chi tiết</h2>
+    <button id="drawer-close" class="btn btn-ghost" aria-label="Đóng">✕</button>
+  </div>
+  <div id="drawer-body" class="drawer-body"></div>
+</aside>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

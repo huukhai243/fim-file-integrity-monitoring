@@ -1,0 +1,15 @@
+# --- Lõi ---
+PyYAML>=6.0            # đọc cấu hình + whitelist
+watchdog>=4.0          # theo dõi realtime: inotify (Linux) / ReadDirectoryChangesW (Windows)
+
+# --- Dashboard (Người 3) ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.6
+
+# --- Tiện ích CLI ---
+rich>=13.7             # bảng + màu cho output dòng lệnh
+
+# --- Dev/test ---
+pytest>=8.0
+httpx>=0.26            # TestClient của FastAPI

@@ -1,0 +1,25 @@
+# Dữ liệu runtime của FIM
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+alerts.jsonl
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

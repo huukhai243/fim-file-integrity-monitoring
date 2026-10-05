@@ -1,0 +1,75 @@
+# Whitelist — các thay đổi đã biết là hợp lệ.
+#
+# Quy tắc bắt buộc khi thêm mục mới:
+#   1. Phải có 'reason' giải thích vì sao an toàn. Không có lý do = không được thêm.
+#   2. Viết hẹp nhất có thể. Ưu tiên 'rule_id' (tắt đúng một luật) hơn là bỏ qua cả file.
+#   3. Ngoại lệ tạm thời thì đặt 'expires_at' để không quên thu hồi.
+#
+# Các tiêu chí trong cùng một 'match' là AND.
+#   path_glob : mẫu đường dẫn, hỗ trợ ** bắc cầu nhiều cấp thư mục
+#   digest    : chỉ khớp đúng nội dung này (hash đã duyệt)
+#   rule_id   : chỉ tắt một luật, ví dụ H024
+#   change    : chỉ áp cho một loại — created | modified | attr | deleted | renamed
+#
+# expires_at nhận: epoch, chuỗi ISO ("2026-12-31T00:00:00"), hoặc tương đối ("+7d").
+
+version: 1
+
+entries:
+  # --- Linux: các file hệ thống thay đổi theo thiết kế ---------------------
+  - id: wl-resolv-conf
+    match:
+      path_glob: "/etc/resolv.conf"
+    reason: "DHCP/systemd-resolved ghi lại file này mỗi lần đổi mạng"
+    added_by: nguoi3
+
+  - id: wl-ld-so-cache
+    match:
+      path_glob: "/etc/ld.so.cache"
+    reason: "Sinh lại tự động sau mỗi lần chạy ldconfig khi cài gói"
+    added_by: nguoi3
+
+  - id: wl-apt-lists
+    match:
+      path_glob: "/var/lib/apt/lists/**"
+    reason: "Metadata kho phần mềm APT, cập nhật liên tục"
+    added_by: nguoi3
+
+  # --- Chỉ tắt một luật, giữ nguyên các luật còn lại -----------------------
+  - id: wl-logrotate-size
+    match:
+      path_glob: "/var/log/**"
+      rule_id: H032
+    reason: "logrotate cắt log về 0 byte theo lịch — chỉ tắt luật kích thước bất thường,
+      các luật khác trên /var/log vẫn hoạt động"
+    added_by: nguoi3
+
+  - id: wl-backup-offhours
+    match:
+      path_glob: "/var/backups/**"
+      rule_id: H024
+    reason: "Job sao lưu chạy 2h sáng theo lịch, không tính là bất thường ngoài giờ"
+    added_by: nguoi3
+
+  # --- Windows -------------------------------------------------------------
+  - id: wl-win-prefetch
+    match:
+      path_glob: "c:/Windows/Prefetch/**"
+    reason: "Windows tự ghi dữ liệu prefetch mỗi lần khởi chạy ứng dụng"
+    added_by: nguoi3
+
+  - id: wl-win-softwaredistribution
+    match:
+      path_glob: "c:/Windows/SoftwareDistribution/**"
+    reason: "Vùng làm việc của Windows Update"
+    added_by: nguoi3
+
+  # --- Ví dụ ngoại lệ có hạn (đang tắt sẵn) --------------------------------
+  - id: wl-maintenance-window
+    match:
+      path_glob: "/opt/myapp/**"
+    reason: "Ngoại lệ tạm trong đợt nâng cấp phiên bản. Bật thủ công khi bắt đầu,
+      tự hết hiệu lực sau 7 ngày."
+    added_by: nguoi3
+    enabled: false
+    expires_at: "+7d"
