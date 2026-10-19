@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="uc-giam-sat" viewBox="0 0 1060 600" width="1060" height="600" font-family="Segoe UI, Arial, Helvetica, sans-serif" role="img" aria-labelledby="uc-giam-sat-t">
+<title id="uc-giam-sat-t">Phân rã: Giám sát thời gian thực</title>
+<rect x="0" y="0" width="1060" height="600" fill="#ffffff"/>
+<rect x="160" y="14" width="760" height="572" fill="none" stroke="#6b7682" stroke-width="1.3"/>
+<text x="174" y="40" font-size="16" font-weight="700" fill="#1f2328">Phân rã: Giám sát thời gian thực</text>
+<line x1="92.0" y1="283.0" x2="253.5" y2="292.9" stroke="#3d4752" stroke-width="1.3"/>
+<line x1="968.0" y1="79.0" x2="883.7" y2="81.7" stroke="#3d4752" stroke-width="1.3"/>
+<path d="M410.0,277.3 L707.5,108.9" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M699.7,119.6 L707.5,108.9 L694.3,110.1" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M432.7,279.4 L683.4,197.2" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M673.7,206.2 L683.4,197.2 L670.2,195.7" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M481.0,290.0 L625.4,277.0" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M614.0,283.6 L625.4,277.0 L613.0,272.6" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M464.9,315.1 L632.0,341.6" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M619.3,345.1 L632.0,341.6 L621.0,334.3" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M422.0,321.7 L695.0,435.8" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M681.8,436.3 L695.0,435.8 L686.0,426.1" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M335.1,136.0 L364.9,276.0" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M357.0,265.4 L364.9,276.0 L367.8,263.1" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M268.5,476.4 L356.3,323.8" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M355.1,337.0 L356.3,323.8 L345.5,331.5" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M499.9,504.3 L385.1,323.8" fill="none" stroke="#3d4752" stroke-width="1.3" stroke-dasharray="6 4"/><path d="M396.2,331.0 L385.1,323.8 L386.9,336.9" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<ellipse cx="370" cy="300" rx="122" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="370" y="305.0" text-anchor="middle" font-size="15" fill="#1f2328">Giám sát thời gian thực</text>
+<ellipse cx="748" cy="86" rx="138" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="748" y="91.0" text-anchor="middle" font-size="15" fill="#1f2328">Nhận sự kiện thay đổi</text>
+<ellipse cx="748" cy="176" rx="138" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="748" y="181.0" text-anchor="middle" font-size="15" fill="#1f2328">Quét nhanh, băm SHA-256</text>
+<ellipse cx="748" cy="266" rx="138" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="748" y="271.0" text-anchor="middle" font-size="15" fill="#1f2328">So sánh với trạng thái trước</text>
+<ellipse cx="748" cy="360" rx="138" ry="34" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="748" y="356.0" text-anchor="middle" font-size="15" fill="#1f2328">Phân loại thay đổi</text>
+<text x="748" y="374.0" text-anchor="middle" font-size="15" fill="#1f2328">(heuristic + whitelist)</text>
+<ellipse cx="748" cy="458" rx="138" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="748" y="463.0" text-anchor="middle" font-size="15" fill="#1f2328">Ghi sự kiện vào lịch sử</text>
+<ellipse cx="330" cy="112" rx="103" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="330" y="117.0" text-anchor="middle" font-size="15" fill="#1f2328">Tạo baseline lần đầu</text>
+<ellipse cx="255" cy="500" rx="71" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="255" y="505.0" text-anchor="middle" font-size="15" fill="#1f2328">Tạo cảnh báo</text>
+<ellipse cx="515" cy="528" rx="103" ry="24" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.5"/>
+<text x="515" y="533.0" text-anchor="middle" font-size="15" fill="#1f2328">Quét toàn bộ định kỳ</text>
+<circle cx="70" cy="260" r="11" fill="#ffffff" stroke="#1f2328" stroke-width="1.7"/><path d="M70,271 V304 M51,283 H89 M70,304 L55,330 M70,304 L85,330" fill="none" stroke="#1f2328" stroke-width="1.7" stroke-linecap="round"/>
+<text x="70" y="352" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">Quản trị viên</text>
+<circle cx="990" cy="56" r="11" fill="#ffffff" stroke="#1f2328" stroke-width="1.7"/><path d="M990,67 V100 M971,79 H1009 M990,100 L975,126 M990,100 L1005,126" fill="none" stroke="#1f2328" stroke-width="1.7" stroke-linecap="round"/>
+<text x="990" y="148" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">Hệ điều hành</text>
+<text x="990" y="166" text-anchor="middle" font-size="15" font-weight="600" fill="#1f2328">(inotify / polling)</text>
+<rect x="559.4" y="153.9" width="70.0" height="18.0" fill="#ffffff"/><text x="594.5" y="166.9" text-anchor="middle" font-size="13" fill="#4f5b67">«include»</text>
+<rect x="553.1" y="209.4" width="70.0" height="18.0" fill="#ffffff"/><text x="588.1" y="222.4" text-anchor="middle" font-size="13" fill="#4f5b67">«include»</text>
+<rect x="535.5" y="263.0" width="70.0" height="18.0" fill="#ffffff"/><text x="570.5" y="276.0" text-anchor="middle" font-size="13" fill="#4f5b67">«include»</text>
+<rect x="533.5" y="312.5" width="70.0" height="18.0" fill="#ffffff"/><text x="568.5" y="325.5" text-anchor="middle" font-size="13" fill="#4f5b67">«include»</text>
+<rect x="556.2" y="373.5" width="70.0" height="18.0" fill="#ffffff"/><text x="591.2" y="386.5" text-anchor="middle" font-size="13" fill="#4f5b67">«include»</text>
+<rect x="356.0" y="186.0" width="63.1" height="18.0" fill="#ffffff"/><text x="360.0" y="199.0" text-anchor="start" font-size="13" fill="#4f5b67">«extend»</text>
+<rect x="356.0" y="203.0" width="122.5" height="17.0" fill="#ffffff"/><text x="360.0" y="215.0" text-anchor="start" font-size="12" fill="#4f5b67" font-style="italic">[chưa có baseline]</text>
+<rect x="243.3" y="380.1" width="63.1" height="18.0" fill="#ffffff"/><text x="302.4" y="393.1" text-anchor="end" font-size="13" fill="#4f5b67">«extend»</text>
+<rect x="164.9" y="397.1" width="141.6" height="17.0" fill="#ffffff"/><text x="302.4" y="409.1" text-anchor="end" font-size="12" fill="#4f5b67" font-style="italic">[kết luận SUSPICIOUS]</text>
+<rect x="448.5" y="394.0" width="63.1" height="18.0" fill="#ffffff"/><text x="452.5" y="407.0" text-anchor="start" font-size="13" fill="#4f5b67">«extend»</text>
+<rect x="448.5" y="411.0" width="97.0" height="17.0" fill="#ffffff"/><text x="452.5" y="423.0" text-anchor="start" font-size="12" fill="#4f5b67" font-style="italic">[mỗi 600 giây]</text>
+</svg>

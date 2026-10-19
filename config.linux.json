@@ -1,0 +1,34 @@
+{
+  "watch_paths": [
+    {"path": "/etc",       "label": "System config",       "critical": true},
+    {"path": "/bin",       "label": "Binaries",            "critical": true},
+    {"path": "/sbin",      "label": "System binaries",     "critical": true},
+    {"path": "/usr/bin",   "label": "User binaries",       "critical": true},
+    {"path": "/usr/sbin",  "label": "Admin binaries",      "critical": true},
+    {"path": "/boot",      "label": "Boot / kernel",       "critical": true},
+    {"path": "/root/.ssh", "label": "Root SSH keys",       "critical": true},
+    {"path": "/var/log",   "label": "System logs",         "critical": false}
+  ],
+  "database": "data/fim_linux.db",
+  "log_file": "logs/fim_linux.log",
+
+  "poll_interval_seconds": 5.0,
+  "debounce_seconds": 1.0,
+  "max_event_delay_seconds": 2.0,
+  "full_scan_interval_seconds": 3600,
+
+  "whitelist": ["*.swp", "*~", "*/etc/mtab", "*/etc/adjtime", "*/etc/ld.so.cache", "*/var/log/journal/*", "*.gz", "*.[0-9]", "btmp", "wtmp", "lastlog"],
+  "allowed_changes": [
+    {"pattern": "*/var/log/*", "events": "CREATED,MODIFIED,DELETED,MOVED", "note": "log rotation"},
+    {"pattern": "*/etc/resolv.conf", "events": "MODIFIED", "note": "DHCP / systemd-resolved"}
+  ],
+
+  "sensitive_paths": ["passwd", "shadow", "group", "gshadow", "sudoers", "*/sudoers.d/*", "authorized_keys", "sshd_config",
+                      "crontab", "*/cron.*/*", "*.service", "hosts", "*/pam.d/*", "*.conf", "vmlinuz*", "initrd*"],
+  "executable_extensions": [".sh", ".py", ".pl", ".bin", ".elf", ".so"],
+  "suspicious_extensions": [".locked", ".encrypted", ".enc", ".crypt", ".crypto", ".ransom"],
+  "suspicious_threshold": 3,
+  "mass_change_threshold": 20,
+  "mass_change_window_seconds": 60,
+  "work_hours": [7, 19]
+}

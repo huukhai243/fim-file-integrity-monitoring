@@ -1,0 +1,4 @@
+# Chuẩn hóa xuống dòng; script shell luôn dùng LF để chạy được trong container Linux
+* text=auto
+*.sh text eol=lf
+Dockerfile text eol=lf

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}FIM Dashboard{% endblock %}</title>
+<style>
+  :root {
+    --bg: #f5f6f8; --card: #fff; --fg: #1d2330; --muted: #6b7280; --line: #e3e6eb; --accent: #2f5bd3;
+    --low: #2e7d4f; --low-bg: #e3f4ea; --med: #9a6700; --med-bg: #fff3d1; --high: #b42318; --high-bg: #fde4e1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #14171d; --card: #1c2029; --fg: #e6e8ec; --muted: #9aa1ad; --line: #2c313c; --accent: #7aa2ff;
+      --low: #6fd49a; --low-bg: #173226; --med: #f2c14e; --med-bg: #3a2f12; --high: #ff8a80; --high-bg: #3d1b19; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--fg); }
+  header { background: var(--card); border-bottom: 1px solid var(--line); padding: 0 24px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+  header .brand { font-weight: 700; padding: 14px 0; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav a { color: var(--muted); text-decoration: none; padding: 16px 12px; border-bottom: 2px solid transparent; }
+  nav a.on { color: var(--fg); border-bottom-color: var(--accent); }
+  nav .count { background: var(--high); color: #fff; border-radius: 10px; padding: 0 7px; font-size: 12px; margin-left: 4px; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 20px; margin: 0 0 16px; }
+  h2 { font-size: 15px; margin: 0 0 12px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+  .stat .v { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat .k { color: var(--muted); font-size: 13px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  .path { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; word-break: break-all; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .LOW, .LEGITIMATE, .ACK { color: var(--low); background: var(--low-bg); }
+  .MEDIUM { color: var(--med); background: var(--med-bg); }
+  .HIGH, .SUSPICIOUS, .NEW { color: var(--high); background: var(--high-bg); }
+  form.inline { display: inline; }
+  button, .btn { font: inherit; border: 1px solid var(--line); background: var(--card); color: var(--fg); border-radius: 6px; padding: 4px 10px; cursor: pointer; text-decoration: none; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button.danger { color: var(--high); }
+  input, select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--fg); }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .flash { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; background: var(--low-bg); color: var(--low); }
+  .flash.error { background: var(--high-bg); color: var(--high); }
+  .bars { display: flex; align-items: flex-end; gap: 6px; height: 160px; padding-top: 8px; }
+  .bar { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; min-width: 14px; position: relative; }
+  .bar .t { background: var(--accent); opacity: .35; border-radius: 3px 3px 0 0; }
+  .bar .s { background: var(--high); }
+  .bar .lbl { font-size: 10px; color: var(--muted); text-align: center; margin-top: 4px; white-space: nowrap; }
+  .legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+  .hbar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .hbar > div { height: 100%; }
+  .pager { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">🛡 FIM Dashboard</div>
+  <nav>
+    <a href="{{ url_for('overview') }}" class="{{ 'on' if request.endpoint == 'overview' }}">Tổng quan</a>
+    <a href="{{ url_for('events') }}" class="{{ 'on' if request.endpoint == 'events' }}">Lịch sử thay đổi</a>
+    <a href="{{ url_for('alerts') }}" class="{{ 'on' if request.endpoint == 'alerts' }}">Cảnh báo{% if new_alerts %}<span class="count">{{ new_alerts }}</span>{% endif %}</a>
+    <a href="{{ url_for('whitelist') }}" class="{{ 'on' if request.endpoint == 'whitelist' }}">Whitelist</a>
+    <a href="{{ url_for('scope') }}" class="{{ 'on' if request.endpoint == 'scope' }}">Phạm vi giám sát</a>
+  </nav>
+</header>
+<main>
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<div class="flash {{ cat if cat != 'message' }}">{{ m }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

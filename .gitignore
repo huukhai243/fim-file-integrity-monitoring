@@ -1,25 +1,29 @@
-# Dữ liệu runtime của FIM
-data/
-*.db
-*.db-journal
-*.db-wal
-*.db-shm
-alerts.jsonl
-*.log
-
-# Python
-__pycache__/
-*.py[cod]
+# Môi trường ảo Python
 .venv/
 venv/
-*.egg-info/
-build/
-dist/
-.pytest_cache/
-.coverage
 
-# IDE / OS
+# Cache Python
+__pycache__/
+*.pyc
+
+# Dữ liệu sinh ra khi chạy (DB, log)
+data/
+logs/
+*.db
+*.db-wal
+*.db-shm
+
+# File zip nộp bài (tạo bằng pack.ps1)
+dist/
+
+# IDE
 .vscode/
 .idea/
-Thumbs.db
-.DS_Store
+
+# Báo cáo (chứa thông tin cá nhân, không đưa lên repo công khai)
+bao_cao/
+
+# Báo cáo tuần và file Word khác (thông tin cá nhân)
+*.docx
+*.doc
+~$*

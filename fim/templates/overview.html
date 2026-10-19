@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}Tổng quan · FIM{% endblock %}
+{% block content %}
+<meta http-equiv="refresh" content="10">
+<h1>Tổng quan</h1>
+<div class="grid">
+  <div class="card stat"><div class="k">Cảnh báo chưa xử lý</div><div class="v" style="color:var(--high)">{{ st.new_alerts }}</div></div>
+  <div class="card stat"><div class="k">Tổng sự kiện</div><div class="v">{{ st.total_events }}</div></div>
+  <div class="card stat"><div class="k">Đáng ngờ / Hợp lệ</div><div class="v">{{ st.by_verdict.get('SUSPICIOUS', 0) }} / {{ st.by_verdict.get('LEGITIMATE', 0) }}</div></div>
+  <div class="card stat"><div class="k">File trong baseline</div><div class="v">{{ st.baseline_files }}</div>
+    <div class="muted small">{{ cfg.watch_paths|length }} thư mục · lần quét cuối {{ (st.last_scan_at or '-')[:19]|replace('T', ' ') }}</div></div>
+</div>
+
+<div class="two">
+  <div class="card">
+    <h2>Sự kiện theo ngày</h2>
+    {% if st.per_day %}
+    <div class="bars">
+      {% for d in st.per_day %}
+      <div class="bar" title="{{ d.d }}: {{ d.total }} sự kiện, {{ d.susp or 0 }} đáng ngờ">
+        <div class="t" style="height:{{ (d.total - (d.susp or 0)) / max_day * 130 }}px"></div>
+        <div class="s" style="height:{{ (d.susp or 0) / max_day * 130 }}px"></div>
+        <div class="lbl">{{ d.d[5:] }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="legend"><span><i style="background:var(--high)"></i>Đáng ngờ</span><span><i style="background:var(--accent);opacity:.35"></i>Hợp lệ</span></div>
+    {% else %}<p class="muted">Chưa có sự kiện.</p>{% endif %}
+  </div>
+  <div class="card">
+    <h2>Theo mức rủi ro</h2>
+    {% set total = st.total_events or 1 %}
+    {% for lv, color in [('HIGH', 'var(--high)'), ('MEDIUM', 'var(--med)'), ('LOW', 'var(--low)')] %}
+      {% set n = st.by_level.get(lv, 0) %}
+      <div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between"><span class="badge {{ lv }}">{{ lv }}</span><span>{{ n }}</span></div>
+        <div class="hbar" style="margin-top:4px"><div style="width:{{ n / total * 100 }}%;background:{{ color }}"></div></div>
+      </div>
+    {% endfor %}
+    <h2 style="margin-top:18px">Theo loại thay đổi</h2>
+    <table>{% for t, n in st.by_type|dictsort(by='value', reverse=true) %}<tr><td>{{ t }}</td><td class="num">{{ n }}</td></tr>{% endfor %}</table>
+  </div>
+</div>
+
+<div class="two">
+  <div class="card">
+    <h2>Cảnh báo mới nhất</h2>
+    {% if alerts %}
+    <div class="table-wrap"><table>
+      {% for a in alerts %}
+      <tr><td><span class="badge {{ a.severity }}">{{ a.severity }}</span></td>
+          <td><div class="path">{{ a.path|short }}</div><div class="muted small">{{ a.timestamp[:19]|replace('T', ' ') }}</div></td></tr>
+      {% endfor %}
+    </table></div>
+    <p><a href="{{ url_for('alerts') }}">Xem tất cả →</a></p>
+    {% else %}<p class="muted">Không có cảnh báo mới. ✅</p>{% endif %}
+  </div>
+  <div class="card">
+    <h2>File thay đổi nhiều nhất</h2>
+    {% if st.top_paths %}
+    <div class="table-wrap"><table>
+      <tr><th>Đường dẫn</th><th>Lần</th><th>Điểm max</th></tr>
+      {% for r in st.top_paths %}<tr><td class="path">{{ r.path|short }}</td><td class="num">{{ r.n }}</td><td class="num">{{ r.max_score }}</td></tr>{% endfor %}
+    </table></div>
+    {% else %}<p class="muted">Chưa có dữ liệu.</p>{% endif %}
+  </div>
+</div>
+<p class="muted small">Trang tự làm mới mỗi 10 giây.</p>
+{% endblock %}

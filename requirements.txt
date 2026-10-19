@@ -1,15 +1,10 @@
-# --- Lõi ---
-PyYAML>=6.0            # đọc cấu hình + whitelist
-watchdog>=4.0          # theo dõi realtime: inotify (Linux) / ReadDirectoryChangesW (Windows)
-
-# --- Dashboard (Người 3) ---
-fastapi>=0.110
-uvicorn[standard]>=0.27
-pydantic>=2.6
-
-# --- Tiện ích CLI ---
-rich>=13.7             # bảng + màu cho output dòng lệnh
-
-# --- Dev/test ---
-pytest>=8.0
-httpx>=0.26            # TestClient của FastAPI
+# Version cố định để môi trường triển khai giống hệt môi trường phát triển (Python 3.13)
+Flask==3.1.3
+watchdog==6.0.0
+# phụ thuộc của Flask
+Werkzeug==3.1.8
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+itsdangerous==2.2.0
+click==8.5.0
+blinker==1.9.0

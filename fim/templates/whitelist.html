@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Whitelist · FIM{% endblock %}
+{% block content %}
+<h1>Whitelist</h1>
+<div class="card">
+  <h2>Thêm rule</h2>
+  <form class="filters" method="post" action="{{ url_for('whitelist_add') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <input name="pattern" placeholder="vd: *.log hoặc */var/log/*" required style="min-width:220px">
+    <select name="kind">
+      <option value="ignore">ignore - không theo dõi</option>
+      <option value="allow">allow - thay đổi hợp lệ</option>
+    </select>
+    <input name="events" placeholder="Sự kiện (allow): * hoặc MODIFIED,CREATED" style="min-width:240px">
+    <input name="note" placeholder="Ghi chú">
+    <button class="primary">Thêm</button>
+  </form>
+  <p class="muted small">Pattern kiểu glob (<code>*</code>, <code>?</code>, <code>[abc]</code>), so khớp với đường dẫn tuyệt đối, đường dẫn tương đối trong thư mục giám sát và tên file.
+    <b>ignore</b>: file bị loại khỏi baseline, không ghi nhận. <b>allow</b>: vẫn ghi nhận vào lịch sử nhưng kết luận là LEGITIMATE, không tạo cảnh báo.</p>
+</div>
+<div class="card table-wrap">
+  <table>
+    <tr><th>#</th><th>Loại</th><th>Pattern</th><th>Sự kiện</th><th>Ghi chú</th><th>Tạo lúc</th><th></th></tr>
+    {% for r in rows %}
+    <tr>
+      <td class="muted">{{ r.id }}</td>
+      <td><span class="badge {{ 'LOW' if r.kind == 'allow' else 'MEDIUM' }}">{{ r.kind }}</span></td>
+      <td class="path">{{ r.pattern }}</td>
+      <td class="small">{{ r.events if r.kind == 'allow' else '-' }}</td>
+      <td class="small">{{ r.note or '' }}</td>
+      <td class="small muted">{{ (r.created_at or '')[:19]|replace('T', ' ') }}</td>
+      <td><form class="inline" method="post" action="{{ url_for('whitelist_delete', wid=r.id) }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="danger">Xóa</button></form></td>
+    </tr>
+    {% else %}<tr><td colspan="7" class="muted">Whitelist trống.</td></tr>{% endfor %}
+  </table>
+</div>
+{% endblock %}

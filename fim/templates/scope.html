@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Phạm vi giám sát · FIM{% endblock %}
+{% block content %}
+<h1>Phạm vi giám sát</h1>
+<div class="card table-wrap">
+  <table>
+    <tr><th>Thư mục</th><th>Nhãn</th><th>Quan trọng</th><th>File</th><th>Dung lượng</th><th>Trạng thái</th></tr>
+    {% for w in items %}
+    <tr>
+      <td class="path">{{ w.path|short }}</td>
+      <td>{{ w.label or '' }}</td>
+      <td>{% if w.critical %}<span class="badge HIGH">critical (+2)</span>{% else %}<span class="muted">-</span>{% endif %}</td>
+      <td class="num">{{ w.files }}</td>
+      <td class="num">{{ w.size|size }}</td>
+      <td>{% if w.exists %}<span class="badge LOW">OK</span>{% else %}<span class="badge HIGH">không tồn tại</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p class="muted small">Cấu hình trong <span class="path">{{ cfg._config_path }}</span> (khóa <code>watch_paths</code>).</p>
+</div>
+<div class="card">
+  <h2>Baseline</h2>
+  <p>Tạo lúc: <b>{{ (st.baseline_at or 'chưa có')[:19]|replace('T', ' ') }}</b> · Lần quét cuối: <b>{{ (st.last_scan_at or '-')[:19]|replace('T', ' ') }}</b></p>
+  <form method="post" action="{{ url_for('baseline_accept') }}"
+        onsubmit="return window.confirm('Chấp nhận TOÀN BỘ trạng thái hiện tại làm baseline mới?')"><input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <button class="danger">Chấp nhận trạng thái hiện tại làm baseline mới</button>
+  </form>
+</div>
+{% endblock %}

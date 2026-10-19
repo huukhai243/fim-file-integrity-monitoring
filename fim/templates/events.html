@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Lịch sử thay đổi · FIM{% endblock %}
+{% block content %}
+<h1>Lịch sử thay đổi</h1>
+<form class="card filters" method="get">
+  <input name="q" value="{{ f.q or '' }}" placeholder="Tìm theo đường dẫn / lý do">
+  <select name="verdict"><option value="">Mọi kết luận</option>
+    {% for v in ['SUSPICIOUS', 'LEGITIMATE'] %}<option {{ 'selected' if f.verdict == v }}>{{ v }}</option>{% endfor %}</select>
+  <select name="level"><option value="">Mọi mức</option>
+    {% for v in ['HIGH', 'MEDIUM', 'LOW'] %}<option {{ 'selected' if f.level == v }}>{{ v }}</option>{% endfor %}</select>
+  <select name="event_type"><option value="">Mọi loại</option>
+    {% for v in ['CREATED', 'MODIFIED', 'DELETED', 'MOVED', 'PERMISSION_CHANGED', 'OWNER_CHANGED', 'TIMESTAMP_CHANGED'] %}<option {{ 'selected' if f.event_type == v }}>{{ v }}</option>{% endfor %}</select>
+  <select name="source"><option value="">Mọi nguồn</option>
+    {% for v in ['monitor', 'scan'] %}<option {{ 'selected' if f.source == v }}>{{ v }}</option>{% endfor %}</select>
+  <button class="primary">Lọc</button> <a class="btn" href="{{ url_for('events') }}">Xóa lọc</a>
+  <span class="muted">{{ total }} sự kiện</span>
+</form>
+<div class="card table-wrap">
+  <table>
+    <tr><th>#</th><th>Thời gian</th><th>Kết luận</th><th>Mức</th><th>Loại</th><th>Đường dẫn / Lý do</th></tr>
+    {% for r in rows %}
+    <tr>
+      <td class="muted">{{ r.id }}</td>
+      <td class="small" style="white-space:nowrap">{{ r.timestamp[:19]|replace('T', ' ') }}<div class="muted">{{ r.source or '' }}</div></td>
+      <td>{% if r.verdict %}<span class="badge {{ r.verdict }}">{{ r.verdict }}</span>{% endif %}</td>
+      <td><span class="badge {{ r.risk_level }}">{{ r.risk_level }} · {{ r.risk_score }}</span></td>
+      <td class="small">{{ r.event_type }}</td>
+      <td><div class="path">{{ r.path|short }}</div>
+        {% if r.old_path %}<div class="path muted">từ: {{ r.old_path|short }}</div>{% endif %}
+        <div class="muted small">{{ r.details }}</div></td>
+    </tr>
+    {% else %}<tr><td colspan="6" class="muted">Không có sự kiện phù hợp.</td></tr>{% endfor %}
+  </table>
+  {% if pages > 1 %}
+  <div class="pager">
+    {% if page > 1 %}<a class="btn" href="{{ url_for('events', page=page-1, **qs) }}">← Trước</a>{% endif %}
+    <span class="muted">Trang {{ page }}/{{ pages }}</span>
+    {% if page < pages %}<a class="btn" href="{{ url_for('events', page=page+1, **qs) }}">Sau →</a>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

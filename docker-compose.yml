@@ -1,0 +1,35 @@
+# Chạy:   docker compose up -d --build
+# Xem:    docker compose logs -f monitor      |  dashboard: http://127.0.0.1:5000
+# Reset:  docker compose down -v               (xóa DB, log và thư mục demo về trạng thái gốc)
+
+x-fim: &fim
+  build: .
+  image: fim-project:2.0
+  stop_signal: SIGINT          # Ctrl+C -> monitor dừng gọn gàng, đóng DB
+  volumes:
+    - fim-data:/app/data       # SQLite: baseline, events, alerts, whitelist
+    - fim-logs:/app/logs       # fim.log, alerts.log
+    - fim-watch:/app/test_folder   # thư mục được giám sát (dùng chung cho 2 container)
+
+services:
+  monitor:
+    <<: *fim
+    container_name: fim-monitor
+    command: ["python", "main.py", "monitor"]
+    tty: true                  # log có màu
+    restart: unless-stopped
+
+  dashboard:
+    <<: *fim
+    container_name: fim-dashboard
+    command: ["python", "main.py", "dashboard", "--host", "0.0.0.0", "--port", "5000"]
+    ports:
+      - "127.0.0.1:5000:5000"  # chỉ mở trên máy host, không ra mạng ngoài
+    depends_on:
+      - monitor
+    restart: unless-stopped
+
+volumes:
+  fim-data:
+  fim-logs:
+  fim-watch:

@@ -1,0 +1,28 @@
+{
+  "watch_paths": [
+    {"path": "test_folder/etc",     "label": "Cấu hình hệ thống",    "critical": true},
+    {"path": "test_folder/bin",     "label": "Chương trình thực thi", "critical": true},
+    {"path": "test_folder/var/log", "label": "Log ứng dụng",          "critical": false},
+    {"path": "test_folder/home",    "label": "Dữ liệu người dùng",    "critical": false}
+  ],
+  "database": "data/fim.db",
+  "log_file": "logs/fim.log",
+
+  "poll_interval_seconds": 1.0,
+  "debounce_seconds": 0.5,
+  "max_event_delay_seconds": 2.0,
+  "full_scan_interval_seconds": 600,
+
+  "whitelist": ["*.tmp", "*.swp", "~*", "__pycache__/", "*.pyc"],
+  "allowed_changes": [
+    {"pattern": "*.log", "events": "CREATED,MODIFIED", "note": "log được ghi thêm là bình thường"}
+  ],
+
+  "sensitive_paths": ["*.conf", "*.ini", "*.service", "*.sh", "passwd", "shadow", "sudoers", "authorized_keys", "*/etc/*", "*/bin/*"],
+  "executable_extensions": [".sh", ".py", ".bin", ".exe", ".elf", ".so"],
+  "suspicious_extensions": [".locked", ".encrypted", ".enc", ".crypt", ".crypto", ".ransom"],
+  "suspicious_threshold": 3,
+  "mass_change_threshold": 10,
+  "mass_change_window_seconds": 60,
+  "work_hours": [7, 19]
+}

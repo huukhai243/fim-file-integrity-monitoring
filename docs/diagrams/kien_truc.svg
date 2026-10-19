@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="arch" viewBox="0 0 960 712" width="960" height="712" font-family="Segoe UI, Arial, Helvetica, sans-serif" role="img" aria-labelledby="arch-t">
+<title id="arch-t">Kiến trúc phân tầng của hệ thống FIM</title>
+<rect x="0" y="0" width="960" height="712" fill="#ffffff"/>
+<rect x="20" y="80" width="920" height="150" fill="#f7f9fb" stroke="#9aa6b2" stroke-width="1.2"/>
+<text x="34" y="102" text-anchor="start" font-size="14" font-weight="700" fill="#4f5b67">Tầng trình bày</text>
+<rect x="20" y="250" width="920" height="110" fill="#f7f9fb" stroke="#9aa6b2" stroke-width="1.2"/>
+<text x="34" y="272" text-anchor="start" font-size="14" font-weight="700" fill="#4f5b67">Tầng điều phối · service.py</text>
+<rect x="20" y="390" width="920" height="124" fill="#f7f9fb" stroke="#9aa6b2" stroke-width="1.2"/>
+<text x="122" y="412" text-anchor="start" font-size="14" font-weight="700" fill="#4f5b67">Tầng nghiệp vụ</text>
+<rect x="20" y="544" width="400" height="150" fill="#f7f9fb" stroke="#9aa6b2" stroke-width="1.2"/>
+<text x="226" y="566" text-anchor="start" font-size="14" font-weight="700" fill="#4f5b67">Hệ điều hành</text>
+<rect x="440" y="544" width="500" height="150" fill="#f7f9fb" stroke="#9aa6b2" stroke-width="1.2"/>
+<text x="454" y="566" text-anchor="start" font-size="14" font-weight="700" fill="#4f5b67">Tầng dữ liệu</text>
+<rect x="395" y="18" width="170" height="40" rx="20.0" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="480.0" y="43.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Quản trị viên</text>
+<rect x="70" y="112" width="390" height="104" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="265.0" y="149.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">CLI · cli.py</text>
+<text x="265.0" y="169.0" text-anchor="middle" font-size="14" fill="#1f2328">init · scan · monitor · events · alerts</text>
+<text x="265.0" y="189.0" text-anchor="middle" font-size="14" fill="#1f2328">ack · accept · whitelist · scope · dashboard</text>
+<rect x="500" y="112" width="390" height="104" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="695.0" y="149.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Web dashboard · dashboard.py (Flask)</text>
+<text x="695.0" y="169.0" text-anchor="middle" font-size="14" fill="#1f2328">Tổng quan · Lịch sử · Cảnh báo</text>
+<text x="695.0" y="189.0" text-anchor="middle" font-size="14" fill="#1f2328">Whitelist · Phạm vi giám sát</text>
+<rect x="150" y="282" width="660" height="66" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="480.0" y="310.0" text-anchor="middle" font-size="14" fill="#1f2328">initialize() · scan_baseline() · monitor()</text>
+<text x="480.0" y="330.0" text-anchor="middle" font-size="14" fill="#1f2328">process_once() · evaluate() · accept()</text>
+<rect x="190" y="422" width="290" height="82" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="335.0" y="448.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Thu thập · core.py</text>
+<text x="335.0" y="468.0" text-anchor="middle" font-size="14" fill="#1f2328">scan_tree(): SHA-256 + metadata</text>
+<text x="335.0" y="488.0" text-anchor="middle" font-size="14" fill="#1f2328">compare_states(): 5 loại thay đổi</text>
+<rect x="500" y="422" width="260" height="82" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="630.0" y="448.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Phân tích · rules.py</text>
+<text x="630.0" y="468.0" text-anchor="middle" font-size="14" fill="#1f2328">classify(): heuristic → điểm</text>
+<text x="630.0" y="488.0" text-anchor="middle" font-size="14" fill="#1f2328">LEGITIMATE / SUSPICIOUS</text>
+<rect x="34" y="590" width="150" height="70" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="109.0" y="620.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">inotify / polling</text>
+<text x="109.0" y="640.0" text-anchor="middle" font-size="14" fill="#1f2328">(watchdog)</text>
+<path d="M222,590 V666 A93.0,10 0 0 0 408,666 V590" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/><ellipse cx="315.0" cy="590" rx="93.0" ry="10" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="315.0" y="628.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Thư mục giám sát</text>
+<text x="315.0" y="648.0" text-anchor="middle" font-size="14" fill="#1f2328">etc, bin, var/log, home</text>
+<rect x="454" y="590" width="166" height="70" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="537.0" y="620.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">config.json</text>
+<text x="537.0" y="640.0" text-anchor="middle" font-size="14" fill="#1f2328">watch_paths, ngưỡng</text>
+<path d="M634,590 V666 A85.0,10 0 0 0 804,666 V590" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/><ellipse cx="719.0" cy="590" rx="85.0" ry="10" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="719.0" y="628.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">SQLite · database.py</text>
+<text x="719.0" y="648.0" text-anchor="middle" font-size="14" fill="#1f2328">6 bảng, chế độ WAL</text>
+<rect x="818" y="590" width="112" height="76" rx="4" fill="#eef4fa" stroke="#2b5d8a" stroke-width="1.4"/>
+<text x="874.0" y="613.0" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2328">Log</text>
+<text x="874.0" y="633.0" text-anchor="middle" font-size="14" fill="#1f2328">fim.log</text>
+<text x="874.0" y="653.0" text-anchor="middle" font-size="14" fill="#1f2328">alerts.log</text>
+<path d="M440,58 L265,112" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M277.0,113.5 L265,112 L274.0,104.0 Z" fill="#3d4752"/>
+<path d="M520,58 L695,112" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M686.0,104.0 L695,112 L683.0,113.5 Z" fill="#3d4752"/>
+<path d="M265,216 L265,282" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M270.0,271.0 L265,282 L260.0,271.0 Z" fill="#3d4752"/>
+<path d="M695,216 L695,282" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M700.0,271.0 L695,282 L690.0,271.0 Z" fill="#3d4752"/>
+<path d="M335,348 L335,422" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M340.0,411.0 L335,422 L330.0,411.0 Z" fill="#3d4752"/>
+<path d="M630,348 L630,422" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M635.0,411.0 L630,422 L625.0,411.0 Z" fill="#3d4752"/>
+<path d="M150,315 L109,315 L109,590" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M114.0,579.0 L109,590 L104.0,579.0 Z" fill="#3d4752"/>
+<path d="M139.0,310.0 L150,315 L139.0,320.0 Z" fill="#3d4752"/>
+<text x="101" y="450" text-anchor="end" font-size="12" fill="#4f5b67">theo dõi,</text>
+<text x="101" y="466" text-anchor="end" font-size="12" fill="#4f5b67">nhận sự kiện</text>
+<path d="M184,625 L222,625" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M211.0,620.0 L222,625 L211.0,630.0 Z" fill="#3d4752"/>
+<path d="M360,504 L360,580" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M365.0,569.0 L360,580 L355.0,569.0 Z" fill="#3d4752"/>
+<text x="368" y="530" text-anchor="start" font-size="12" fill="#4f5b67">đọc, băm</text>
+<path d="M590,504 L590,590" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M595.0,579.0 L590,590 L585.0,579.0 Z" fill="#3d4752"/>
+<text x="582" y="530" text-anchor="end" font-size="12" fill="#4f5b67">đọc ngưỡng</text>
+<path d="M719,504 L719,580" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M724.0,569.0 L719,580 L714.0,569.0 Z" fill="#3d4752"/>
+<text x="711" y="530" text-anchor="end" font-size="12" fill="#4f5b67">đọc whitelist</text>
+<path d="M790,348 L790,580" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M795.0,569.0 L790,580 L785.0,569.0 Z" fill="#3d4752"/>
+<text x="798" y="450" text-anchor="start" font-size="12" fill="#4f5b67">ghi events,</text>
+<text x="798" y="466" text-anchor="start" font-size="12" fill="#4f5b67">alerts</text>
+<path d="M810,315 L900,315 L900,590" fill="none" stroke="#3d4752" stroke-width="1.4"/>
+<path d="M905.0,579.0 L900,590 L895.0,579.0 Z" fill="#3d4752"/>
+</svg>
